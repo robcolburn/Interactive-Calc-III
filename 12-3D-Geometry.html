@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Sage Cell Server</title>
+    <script src="http://sagecell.sagemath.org/static/jquery.min.js"></script>
+    <script src="http://sagecell.sagemath.org/embedded_sagecell.js"></script>
+    <script>
+$(function () {
+    // Make the div with id 'mycell' a Sage cell
+    sagecell.makeSagecell({inputLocation:  '#mycell',
+                           template:       sagecell.templates.minimal,
+                           evalButtonText: 'Activate'});
+    // Make *any* div with class 'compute' a Sage cell
+    sagecell.makeSagecell({inputLocation: 'div.compute',
+                           evalButtonText: 'Evaluate'});
+});
+    </script>
+  </head>
+  <body>
+  <h1>12. 3D Geometry</h1>
+
+  <div class="compute"><script type="text/x-sage">
+
+# Declaring our common variables
+x, y, z = var('x,y,z')
+a, b, c = var('a,b,c')
+
+# Define some quadtraick equations we'd like observe
+quadrics = {
+            'Ellipsoid':a*x^2+b*y^2+c*z^2-1,
+            'Elliptic paraboloid':a*x^2+b*y^2-c*z,
+            'Hyperbolic paraboloid':a*x^2-b*y^2-c*z,
+            '1-Sheeted Hyperboloid':a*x^2+b*y^2-c*z^2-1,
+            '2-Sheeted Hyperboloid':a*x^2-b*y^2-c*z^2-1,
+            'Cone':a*x^2+b*y^2-c*z^2
+            }
+
+# Define our interactive
+# We'll provide 4 parameters from the user to control
+@interact
+def quadratic_examples(
+                       quadratic = selector(quadrics.keys()),
+                       A = slider(0, 10, 1/2, default = 1),
+                       B = slider(0, 10, 1/2, default = 1),
+                       C = slider(0, 10, 1/2, default = 1)
+                       ):
+    # Pick out the equeation to use for F
+    f = quadrics[quadratic];
+    # Fill in our variables
+    f = f.subs({ a:A, b:B, c:C })
+    # Draw our example
+    html('<center>$'+latex(f)+'$ </center>')
+    p = implicit_plot3d(f,
+                        (x,-2,2),
+                        (y,-2,2),
+                        (z,-2,2),
+                        plot_points = 75)
+    show(p)
+
+
+</script></div>
+  </body>
+</html>
