@@ -11,10 +11,7 @@ $(function () {
     // Make the div with id 'mycell' a Sage cell
     sagecell.makeSagecell({inputLocation:  '#mycell',
                            template:       sagecell.templates.minimal,
-                           evalButtonText: 'Activate'});
-    // Make *any* div with class 'compute' a Sage cell
-    sagecell.makeSagecell({inputLocation: 'div.compute',
-                           evalButtonText: 'Evaluate'});
+                           evalButtonText: 'Start Example'});
 });
     </script>
   </head>
@@ -26,6 +23,7 @@ $(function () {
 # Here are a few routines we'll write as functions
 # To help make it easier to follow later
 
+# This returns us function expression from an equation
 def solve_eq_for(f, var_name):
     g = solve(f, var_name, solution_dict = True);
     g = g[0][var_name];
